@@ -2046,6 +2046,9 @@ static void calculateLayoutImpl(
   const float leadingPaddingAndBorderCross =
       node->style().computeFlexStartPaddingAndBorder(
           crossAxis, direction, ownerWidth);
+  const float trailingPaddingAndBorderCross =
+      node->style().computeFlexEndPaddingAndBorder(
+          crossAxis, direction, ownerWidth);
 
   SizingMode sizingModeMainDim =
       isMainAxisRow ? widthSizingMode : heightSizingMode;
@@ -2761,6 +2764,8 @@ static void calculateLayoutImpl(
       if (child->style().positionType() != PositionType::Absolute) {
         child->setLayoutPosition(
             node->getLayout().measuredDimension(dimension(crossAxis)) -
+                trailingPaddingAndBorderCross +
+                leadingPaddingAndBorderCross -
                 child->getLayout().position(flexStartEdge(crossAxis)) -
                 child->getLayout().measuredDimension(dimension(crossAxis)),
             flexStartEdge(crossAxis));
